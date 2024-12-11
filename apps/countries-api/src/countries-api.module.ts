@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { CountriesApiController } from './countries-api.controller';
 import { CountriesApiService } from './countries-api.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import databaseConfig, { DatabaseConfig } from '@app/database/database.config';
+import { ConfigModule } from '@nestjs/config';
+import databaseConfig from '@app/database/database.config';
 import { CountryEntity } from '@app/database/entities/country.entity';
-import { CountryTranslationEntity } from '@app/database/entities/country-translation.entity';
+import { DatabaseModule } from '@app/database';
 
 @Module({
   imports: [
@@ -13,15 +13,8 @@ import { CountryTranslationEntity } from '@app/database/entities/country-transla
       load: [databaseConfig],
       envFilePath: ['.env', '../../.env'],
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        ...configService.get<DatabaseConfig>('database'),
-        type: 'postgres',
-        entities: [CountryEntity, CountryTranslationEntity],
-      }),
-      inject: [ConfigService],
-    }),
+    DatabaseModule,
+    TypeOrmModule.forFeature([CountryEntity]),
   ],
   controllers: [CountriesApiController],
   providers: [CountriesApiService],
