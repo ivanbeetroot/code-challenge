@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import databaseConfig from '@app/database/database.config';
 import { CountryEntity } from '@app/database/entities/country.entity';
 import { DatabaseModule } from '@app/database';
+import { AuthModule } from '@app/auth';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { DatabaseModule } from '@app/database';
     }),
     DatabaseModule,
     TypeOrmModule.forFeature([CountryEntity]),
+    AuthModule,
   ],
   controllers: [CountriesApiController],
   providers: [CountriesApiService],

@@ -11,12 +11,14 @@ describe('CountriesApiController', () => {
       providers: [CountriesApiService],
     }).compile();
 
-    countriesApiController = app.get<CountriesApiController>(CountriesApiController);
+    countriesApiController = app.get<CountriesApiController>(
+      CountriesApiController,
+    );
   });
 
   describe('root', () => {
     it('should return "Hello World!"', () => {
-      expect(countriesApiController.getHello()).toBe('Hello World!');
+      expect(countriesApiController.getCountries()).toBe('Hello World!');
     });
   });
 });
