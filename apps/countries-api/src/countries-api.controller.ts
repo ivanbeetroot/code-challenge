@@ -7,29 +7,40 @@ import {
 } from '@nestjs/common';
 import { CountriesApiService } from './countries-api.service';
 import { ApiOkResponsePaginated } from './swagger/api-ok-response-paginated';
-import CountryListItemDto from './dto/country-list-item.dto';
+import CountryListItemDTO from './dto/country-list-item.dto';
 import { plainToInstance } from 'class-transformer';
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
-import { CountriesQueryDto } from './dto/countries-query.dto';
+import {
+  ApiBearerAuth,
+  ApiExcludeEndpoint,
+  ApiOperation,
+} from '@nestjs/swagger';
+import { CountriesQueryDTO } from './dto/countries-query.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api/v1/countries')
 export class CountriesApiController {
   constructor(private readonly countriesApiService: CountriesApiService) {}
 
+  //health check
+  @Get('health')
+  @ApiExcludeEndpoint()
+  async healthCheck() {
+    return { status: 'ok' };
+  }
+
   @Get()
   @ApiBearerAuth()
-  @ApiOkResponsePaginated(CountryListItemDto)
+  @ApiOkResponsePaginated(CountryListItemDTO)
   @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Get all validation rules' })
   async getCountries(
-    @Query(new ValidationPipe({ transform: true })) query: CountriesQueryDto,
+    @Query(new ValidationPipe({ transform: true })) query: CountriesQueryDTO,
   ) {
     const [countriesList, totalCount] =
       await this.countriesApiService.getCountriesList(query);
     return {
       data: countriesList.map((country) =>
-        plainToInstance(CountryListItemDto, country),
+        plainToInstance(CountryListItemDTO, country),
       ),
       totalCount,
       skip: query.skip,

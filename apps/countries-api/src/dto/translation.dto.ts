@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 
-export default class TranslationDto {
+export default class TranslationDTO {
   @Exclude()
   id: string;
   @ApiProperty()

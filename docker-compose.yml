@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: ${DATABASE_USER:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-secretpassword}
+      POSTGRES_DB: ${DATABASE_NAME:-countries_api_db}
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/countries-api/Dockerfile
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: ${DATABASE_PORT:-5432}
+      DATABASE_USER: ${DATABASE_USER:-postgres}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-secretpassword}
+      DATABASE_NAME: ${DATABASE_NAME:-countries_api_db}
+      DATABASE_SYNCHRONIZE: ${DATABASE_SYNCHRONIZE:-false}
+      AUTH0_DOMAIN: ${AUTH0_DOMAIN:-dev-pj1zxl64trws11nn.eu.auth0.com}
+      AUTH0_AUDIENCE: ${AUTH0_AUDIENCE:-code-challenge}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/api/v1/countries/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 1m
+
+  fetch:
+    build:
+      context: .
+      dockerfile: apps/countries-fetch/Dockerfile
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: ${DATABASE_PORT:-5432}
+      DATABASE_USER: ${DATABASE_USER:-postgres}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-secretpassword}
+      DATABASE_NAME: ${DATABASE_NAME:-countries_api_db}
+      DATABASE_SYNCHRONIZE: ${DATABASE_SYNCHRONIZE:-false}
+    depends_on:
+      - db
+      - api
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 1m

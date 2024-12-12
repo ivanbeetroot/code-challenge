@@ -16,7 +16,8 @@
       "entryFile": "main",
       "sourceRoot": "apps/countries-fetch/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/countries-fetch/tsconfig.app.json"
+        "tsConfigPath": "apps/countries-fetch/tsconfig.app.json",
+        "webpack": false
       }
     },
     "countries-api": {
@@ -43,7 +44,8 @@
       "entryFile": "index",
       "sourceRoot": "libs/database/src",
       "compilerOptions": {
-        "tsConfigPath": "libs/database/tsconfig.lib.json"
+        "tsConfigPath": "libs/database/tsconfig.lib.json",
+        "webpack": false
       }
     }
   }

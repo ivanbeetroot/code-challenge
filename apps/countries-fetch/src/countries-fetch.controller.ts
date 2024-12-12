@@ -1,7 +1,11 @@
-import { Controller } from '@nestjs/common';
-import { CountriesFetchService } from './countries-fetch.service';
+import { Controller, Get } from '@nestjs/common';
+import { ApiExcludeEndpoint } from '@nestjs/swagger';
 
 @Controller()
 export class CountriesFetchController {
-  constructor(private readonly countriesFetchService: CountriesFetchService) {}
+  @Get('health')
+  @ApiExcludeEndpoint()
+  async healthCheck() {
+    return { status: 'ok' };
+  }
 }

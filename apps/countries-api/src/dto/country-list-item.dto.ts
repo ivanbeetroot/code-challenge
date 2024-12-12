@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import TranslationDto from './translation.dto';
+import TranslationDTO from './translation.dto';
 
-export default class CountryListItemDto {
+export default class CountryListItemDTO {
   @Exclude()
   id: string;
   @ApiProperty({
@@ -10,8 +10,8 @@ export default class CountryListItemDto {
   })
   name: string;
   @ApiProperty({
-    type: TranslationDto,
+    type: TranslationDTO,
     isArray: true,
   })
-  translations: TranslationDto[];
+  translations: TranslationDTO[];
 }

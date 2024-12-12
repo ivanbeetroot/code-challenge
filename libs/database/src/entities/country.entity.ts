@@ -1,4 +1,10 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { CountryTranslationEntity } from '@app/database/entities/country-translation.entity';
 
 @Entity({ name: 'country' })
@@ -7,6 +13,7 @@ export class CountryEntity {
   public id: number;
 
   @Column('text')
+  @Index({})
   name: string;
 
   @Column('text')

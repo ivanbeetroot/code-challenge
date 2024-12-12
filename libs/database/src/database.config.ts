@@ -1,4 +1,6 @@
 import { registerAs } from '@nestjs/config';
+import { DataSource, DataSourceOptions } from 'typeorm';
+import { config as dotenvConfig } from 'dotenv';
 
 export interface DatabaseConfig {
   host: string;
@@ -9,12 +11,21 @@ export interface DatabaseConfig {
   synchronize: boolean;
 }
 
-export default registerAs('database', () => ({
+dotenvConfig({ path: ['.env', '../.env', '../../.env'] });
+
+const config = {
   type: 'postgres',
-  host: process.env.DATABASE_HOST,
-  port: parseInt(process.env.DATABASE_PORT ?? '', 10) || 5432,
-  username: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE_NAME,
+  host: `${process.env.DATABASE_HOST}`,
+  port: `${process.env.DATABASE_PORT}`,
+  username: `${process.env.DATABASE_USER}`,
+  password: `${process.env.DATABASE_PASSWORD}`,
+  database: `${process.env.DATABASE_NAME}`,
+  entities: ['dist/libs/database/entities/*.entity{.ts,.js}'],
+  migrations: ['dist/libs/database/migrations/*{.ts,.js}'],
+  autoLoadEntities: true,
+  logging: process.env.DATABASE_LOGGING === 'true',
   synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
-}));
+};
+
+export default registerAs('database', () => config);
+export const connectionSource = new DataSource(config as DataSourceOptions);
