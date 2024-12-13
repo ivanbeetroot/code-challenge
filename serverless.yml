@@ -27,6 +27,7 @@ functions:
           method: ANY
   fetch:
     handler: dist/apps/countries-fetch/apps/countries-fetch/src/lambda.handler
+    timeout: 60
     events:
       - schedule: cron(30 2 * * ? *)
 
