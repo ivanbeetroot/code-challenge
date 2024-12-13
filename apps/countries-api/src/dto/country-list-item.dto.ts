@@ -9,6 +9,18 @@ export default class CountryListItemDTO {
     type: 'string',
   })
   name: string;
+
+  @ApiProperty({
+    type: 'object',
+    additionalProperties: { type: 'string' },
+    example: {
+      alt: 'Alt text',
+      png: 'https://flagcdn.com/w320/sb.png',
+      svg: 'https://flagcdn.com/sb.svg',
+    },
+  })
+  flag: Record<string, string>;
+
   @ApiProperty({
     type: TranslationDTO,
     isArray: true,

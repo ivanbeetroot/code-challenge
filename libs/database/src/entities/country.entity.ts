@@ -13,11 +13,11 @@ export class CountryEntity {
   public id: number;
 
   @Column('text')
-  @Index({})
+  @Index({ unique: true })
   name: string;
 
-  @Column('text')
-  flag: string;
+  @Column({ type: 'jsonb', nullable: true })
+  flag: Record<string, any>;
 
   @OneToMany(
     () => CountryTranslationEntity,

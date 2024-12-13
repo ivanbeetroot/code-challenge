@@ -39,7 +39,7 @@ export class CountriesFetchService {
   private async saveCountry(country: CountryResponseItem) {
     const countryEntity = new CountryEntity();
     countryEntity.name = country.name.common;
-    countryEntity.flag = country.flags.png;
+    countryEntity.flag = country.flags;
 
     await this.countryEntityRepository.save(countryEntity);
 

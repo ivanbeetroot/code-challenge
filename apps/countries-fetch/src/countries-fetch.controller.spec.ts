@@ -11,12 +11,8 @@ describe('CountriesFetchController', () => {
       providers: [CountriesFetchService],
     }).compile();
 
-    countriesFetchController = app.get<CountriesFetchController>(CountriesFetchController);
-  });
-
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(countriesFetchController.getHello()).toBe('Hello World!');
-    });
+    countriesFetchController = app.get<CountriesFetchController>(
+      CountriesFetchController,
+    );
   });
 });

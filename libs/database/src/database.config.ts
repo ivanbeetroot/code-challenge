@@ -20,7 +20,10 @@ const config = {
   username: `${process.env.DATABASE_USER}`,
   password: `${process.env.DATABASE_PASSWORD}`,
   database: `${process.env.DATABASE_NAME}`,
-  entities: ['dist/libs/database/entities/*.entity{.ts,.js}'],
+  entities: [
+    'libs/database/src/entities/*{.ts,.js}',
+    'dist/libs/database/entities/*.entity{.ts,.js}',
+  ],
   migrations: [
     'libs/database/src/migrations/*{.ts,.js}',
     'dist/libs/database/migrations/*{.ts,.js}',

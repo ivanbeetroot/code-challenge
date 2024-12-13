@@ -27,7 +27,8 @@
     "migration:run": "npm run typeorm -- migration:run",
     "migration:revert": "npm run typeorm -- migration:revert",
     "migration:create": "npm run typeorm -- migration:create ./libs/database/src/migrations/$npm_config_name",
-    "cli": "CLI_PATH=./apps/countries-fetch/src/cli.ts nestjs-command"
+    "cli": "CLI_PATH=./apps/countries-fetch/src/cli.ts nestjs-command",
+    "cli:fetch": "npm run cli -- countries:fetch"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

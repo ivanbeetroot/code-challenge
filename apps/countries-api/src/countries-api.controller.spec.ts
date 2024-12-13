@@ -15,10 +15,4 @@ describe('CountriesApiController', () => {
       CountriesApiController,
     );
   });
-
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(countriesApiController.getCountries()).toBe('Hello World!');
-    });
-  });
 });

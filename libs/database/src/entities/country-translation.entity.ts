@@ -21,7 +21,10 @@ export class CountryTranslationEntity {
   @Column({ length: 5 })
   language: string;
 
-  @ManyToOne(() => CountryEntity, (country) => country.translations)
+  @ManyToOne(() => CountryEntity, (country) => country.translations, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn()
   country: CountryEntity;
 }
