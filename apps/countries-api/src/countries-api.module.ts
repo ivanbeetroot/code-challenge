@@ -12,7 +12,7 @@ import { AuthModule } from '@app/auth';
   imports: [
     ConfigModule.forRoot({
       load: [databaseConfig],
-      envFilePath: ['.env', '../../.env'],
+      envFilePath: ['.env', '../../.env', '../../.env.dev', '../../../.env'],
     }),
     DatabaseModule,
     TypeOrmModule.forFeature([CountryEntity]),

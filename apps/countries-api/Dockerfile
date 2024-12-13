@@ -36,4 +36,4 @@ RUN npm ci --omit=dev
 # Expose the NestJS default port
 EXPOSE 3000
 USER node
-CMD ./node_modules/.bin/typeorm -d dist/libs/database/database.config.js migration:run && node dist/apps/countries-api/main.js
+CMD ./node_modules/.bin/typeorm -d dist/libs/database/database.config.js migration:run && node dist/apps/countries-api/apps/countries-api/src/main.js

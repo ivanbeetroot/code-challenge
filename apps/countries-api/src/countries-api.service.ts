@@ -19,7 +19,7 @@ export class CountriesApiService {
       take: query.take,
       skip: query.skip,
       where: {
-        name: query.name?.length ? ILike(`%${query.name}%`) : undefined,
+        name: query.name?.length ? ILike(`%${query.name}%`) : undefined, // gin index with gin_trgm_ops to optimize such queries is used
       },
     });
   }

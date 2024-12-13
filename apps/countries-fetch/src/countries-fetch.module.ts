@@ -9,16 +9,18 @@ import { CountryTranslationEntity } from '@app/database/entities/country-transla
 import { CountriesFetchCommand } from './countries-fetch.command';
 import { CommandModule } from 'nestjs-command';
 import { DatabaseModule } from '@app/database';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     CommandModule,
     ConfigModule.forRoot({
       load: [databaseConfig],
-      envFilePath: ['.env', '../../.env'],
+      envFilePath: ['.env', '../../.env', '../../.env.dev'],
     }),
     DatabaseModule,
     TypeOrmModule.forFeature([CountryEntity, CountryTranslationEntity]),
+    ScheduleModule.forRoot(),
   ],
   controllers: [CountriesFetchController],
   providers: [CountriesFetchService, CountriesFetchCommand],

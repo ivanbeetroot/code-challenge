@@ -14,6 +14,7 @@ import { CountryTranslationEntity } from '@app/database/entities/country-transla
         ...configService.get<DatabaseConfig>('database'),
         type: 'postgres',
         entities: [CountryEntity, CountryTranslationEntity],
+        migrations: [],
       }),
       inject: [ConfigService],
     }),

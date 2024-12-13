@@ -4,6 +4,7 @@ import { CountryEntity } from '@app/database/entities/country.entity';
 import { Repository } from 'typeorm';
 import CountryResponseItem from './interfaces/country-response-item';
 import { CountryTranslationEntity } from '@app/database/entities/country-translation.entity';
+import { Cron } from '@nestjs/schedule';
 
 @Injectable()
 export class CountriesFetchService {
@@ -28,6 +29,11 @@ export class CountriesFetchService {
     await Promise.allSettled(
       countries.map((country) => this.saveCountry(country)),
     );
+  }
+
+  @Cron('30 2 * * *')
+  async handleCron() {
+    await this.fetchCountries();
   }
 
   private async saveCountry(country: CountryResponseItem) {

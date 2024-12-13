@@ -1,0 +1,47 @@
+service: countries-service
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-west-3
+  environment: # Environment variables
+    DATABASE_HOST: ${file(./env.dev.yml):DATABASE_HOST}
+    DATABASE_PORT: ${file(./env.dev.yml):DATABASE_PORT}
+    DATABASE_USER: ${file(./env.dev.yml):DATABASE_USER}
+    DATABASE_PASSWORD: ${file(./env.dev.yml):DATABASE_PASSWORD}
+    DATABASE_NAME: ${file(./env.dev.yml):DATABASE_NAME}
+    DATABASE_SYNCHRONIZE: ${file(./env.dev.yml):DATABASE_SYNCHRONIZE}
+    AUTH0_DOMAIN: ${file(./env.dev.yml):AUTH0_DOMAIN}
+    AUTH0_AUDIENCE: ${file(./env.dev.yml):AUTH0_AUDIENCE}
+    AWS_EXECUTION_ENV: AWS_Lambda_nodejs20.x
+
+plugins:
+  - serverless-offline
+
+functions:
+  api:
+    handler: dist/apps/countries-api/apps/countries-api/src/lambda.handler
+    events:
+      - httpApi: # HTTP API Gateway
+          path: /{proxy+}
+          method: ANY
+  fetch:
+    handler: dist/apps/countries-fetch/apps/countries-fetch/src/lambda.handler
+    events:
+      - schedule: cron(30 2 * * ? *)
+
+package:
+  excludeDevDependencies: true
+  individually: true
+  patterns:
+    - '!node_modules/aws-sdk/**' # Exclude AWS SDK (already included in Lambda runtime)
+
+custom:
+  esbuild:
+    bundle: true
+    minify: true
+    sourcemap: true
+    target: node20
+    platform: node
+    exclude:
+      - aws-sdk

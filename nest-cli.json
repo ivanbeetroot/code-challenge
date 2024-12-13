@@ -26,7 +26,8 @@
       "entryFile": "main",
       "sourceRoot": "apps/countries-api/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/countries-api/tsconfig.app.json"
+        "tsConfigPath": "apps/countries-api/tsconfig.app.json",
+        "webpack": false
       }
     },
     "auth": {

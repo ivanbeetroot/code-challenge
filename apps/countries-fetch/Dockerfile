@@ -30,10 +30,10 @@ COPY --from=builder /usr/src/app/package*.json ./
 # For npm 7+ you can use `--omit=dev` to skip devDependencies:
 RUN npm ci --omit=dev
 
-RUN crontab -r -u node && \
-    echo "30 2 * * * CLI_PATH=/usr/src/app/dist/apps/countries-fetch/apps/countries-fetch/src/cli.js /usr/src/app/node_modules/.bin/nestjs-command countries:fetch" > /tmp/node_cron && \
-    crontab -u node /tmp/node_cron && \
-    rm /tmp/node_cron
+#RUN crontab -r -u node && \
+#    echo "30 2 * * * CLI_PATH=/usr/src/app/dist/apps/countries-fetch/apps/countries-fetch/src/cli.js /usr/src/app/node_modules/.bin/nestjs-command countries:fetch" > /tmp/node_cron && \
+#    crontab -u node /tmp/node_cron && \
+#    rm /tmp/node_cron
 
 # If using npm 6 or older, you could do:
 # RUN npm ci && npm prune --production
